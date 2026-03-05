@@ -1,17 +1,29 @@
-/* Переменные на основе палитры CSBS */
+/* =========================================
+   Переменные палитры CSBS (под логотип)
+   Логотип: градиент #2a5298 (тёмно-синий) → #9dc8d4 (голубой)
+   ========================================= */
 :root {
-    /* Основные фоны и цвета */
+    /* Фоны */
     --color-bg-primary: #ffffff;
-    --color-bg-secondary: #f8f9fa;
+    --color-bg-secondary: #f5f7fa;
     --color-bg-accent: #d8d7ce;
 
-    /* Текста и акценты. Основные цвета клиента */
-    --color-text-main: #222831;
-    --color-text-secondary: #283b48;
+    /* Основные цвета текста */
+    --color-text-main: #1a2744;
+    /* Тёмно-синий, взят из Logo CS */
+    --color-text-secondary: #3d5a7a;
+    /* Немного светлее */
 
-    /* Бирюзовый акцентный цвет для кнопок и ссылок */
-    --color-brand-cyan: #00a6cc;
-    --color-brand-cyan-hover: #008eb0;
+    /* Акцентные цвета из логотипа */
+    --color-brand-navy: #2a5298;
+    /* Тёмно-синий (буква C в лого) */
+    --color-brand-navy-hover: #1f3f7a;
+    --color-brand-blue: #9dc8d4;
+    /* Голубой (буква S в лого) */
+
+    /* Для обратной совместимости с booking.css */
+    --color-brand-cyan: #2a5298;
+    --color-brand-cyan-hover: #1f3f7a;
 
     /* Типографика */
     --font-main: 'Inter', system-ui, -apple-system, sans-serif;
@@ -101,12 +113,13 @@ img {
 
 /* Навигация */
 .navbar {
-    padding: 20px 0;
+    padding: 14px 0;
     position: sticky;
     top: 0;
-    background-color: #00a6cc;
+    background-color: #ffffff;
     z-index: 100;
-    box-shadow: 0 2px 16px rgba(0, 166, 204, 0.25);
+    box-shadow: 0 2px 12px rgba(42, 82, 152, 0.1);
+    border-bottom: 3px solid var(--color-brand-navy);
 }
 
 .nav-content {
@@ -115,26 +128,28 @@ img {
     align-items: center;
 }
 
+/* Логотип-изображение */
 .logo {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: #ffffff;
-    -webkit-text-fill-color: #ffffff;
-    background: none;
-    -webkit-background-clip: unset;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-/* Логотип в футере — без перекраски */
+.logo-img {
+    height: 80px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* Лого в футере */
 .footer-logo {
-    color: #ffffff !important;
-    -webkit-text-fill-color: #ffffff !important;
-    background: none !important;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -1px;
+    display: block;
+    height: 40px;
+    width: auto;
     margin-bottom: 20px;
-    display: inline-block;
+    /* Инвертируем чтобы лого было видно на тёмном фоне */
+    filter: brightness(0) invert(1);
 }
 
 .nav-links {
@@ -145,7 +160,7 @@ img {
 
 .nav-links a {
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.88);
+    color: var(--color-text-main);
     font-size: 15px;
     position: relative;
 }
@@ -157,7 +172,7 @@ img {
     height: 2px;
     bottom: -4px;
     left: 0;
-    background-color: #ffffff;
+    background-color: var(--color-brand-navy);
     transition: var(--transition);
 }
 
@@ -168,29 +183,34 @@ img {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: #ffffff;
+    color: var(--color-brand-navy);
 }
 
 /* Кнопка-ссылка Бронирование в навигации */
 .nav-booking-link {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 8px 20px;
-    border-radius: 6px;
+    background-color: var(--color-brand-navy);
+    padding: 9px 22px;
+    border-radius: 7px;
     font-weight: 600 !important;
     color: #ffffff !important;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border: none;
     transition: var(--transition);
 }
 
+.nav-booking-link::after {
+    display: none !important;
+}
+
 .nav-booking-link:hover {
-    background-color: rgba(255, 255, 255, 0.32);
-    border-color: #ffffff;
+    background-color: var(--color-brand-navy-hover);
+    color: #ffffff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(42, 82, 152, 0.25);
 }
 
 .nav-booking-link.active {
-    background-color: #ffffff;
-    color: var(--color-brand-cyan) !important;
-    border-color: #ffffff;
+    background-color: var(--color-brand-navy-hover);
+    color: #ffffff !important;
 }
 
 .nav-actions {
@@ -202,11 +222,11 @@ img {
 .login {
     font-weight: 600;
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--color-text-main);
 }
 
 .login:hover {
-    color: #ffffff;
+    color: var(--color-brand-navy);
 }
 
 /* =============================================
@@ -258,12 +278,12 @@ img {
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-brand-cyan);
-    background: rgba(0, 166, 204, 0.15);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
     padding: 6px 14px;
     border-radius: 100px;
     margin-bottom: 24px;
-    border: 1px solid rgba(0, 166, 204, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.45);
 }
 
 .hero-text h1 {
@@ -292,7 +312,7 @@ img {
 /* Белая кнопка (на тёмном герое) */
 .btn-white {
     background-color: #ffffff;
-    color: var(--color-text-main);
+    color: var(--color-brand-navy);
     font-weight: 700;
 }
 
@@ -346,7 +366,7 @@ img {
 .stat-num {
     font-size: 36px;
     font-weight: 700;
-    color: var(--color-brand-cyan);
+    color: var(--color-brand-blue);
     letter-spacing: -0.02em;
 }
 
