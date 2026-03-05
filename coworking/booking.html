@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CSBS — Бронирование рабочего места или переговорной комнаты онлайн.">
+    <title>CSBS | Бронирование</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="booking.css">
+</head>
+
+<body>
+
+    <!-- НАВИГАЦИЯ -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">CSBS</a>
+            <nav class="nav-links">
+                <a href="index.html#locations">Локации</a>
+                <a href="index.html#amenities">Удобства</a>
+                <a href="index.html#pricing">Тарифы</a>
+                <a href="booking.html" class="nav-booking-link active">Бронирование</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="#" class="login">Войти</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="booking-page">
+
+        <!-- ЗАГОЛОВОК СТРАНИЦЫ -->
+        <div class="booking-page-header">
+            <div class="container">
+                <h1>Бронирование</h1>
+                <p>Выберите тип пространства, укажите дату и подберите место на карте зала.</p>
+            </div>
+        </div>
+
+        <div class="container booking-layout">
+
+            <!-- ЛЕВАЯ КОЛОНКА: ФОРМА -->
+            <aside class="booking-form-col">
+                <div class="booking-form-card">
+                    <h2 class="form-title">
+                        <i data-lucide="calendar-check" class="form-title-icon"></i>
+                        Форма бронирования
+                    </h2>
+
+                    <div class="form-section">
+                        <label class="form-label">Тип пространства</label>
+                        <div class="type-selector">
+                            <button class="type-btn active" id="type-desk" onclick="selectType('desk', this)">
+                                <i data-lucide="armchair"></i>
+                                <span>Рабочее место</span>
+                            </button>
+                            <button class="type-btn" id="type-room" onclick="selectType('room', this)">
+                                <i data-lucide="presentation"></i>
+                                <span>Переговорная</span>
+                            </button>
+                            <button class="type-btn" id="type-office" onclick="selectType('office', this)">
+                                <i data-lucide="building-2"></i>
+                                <span>Приватный офис</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <label class="form-label" for="location">Локация</label>
+                        <select id="location" class="form-select">
+                            <option value="">Выберите локацию</option>
+                            <option>CSBS Центр — ул. Тверская, 15</option>
+                            <option>CSBS Сити — Кутузовский пр-т, 2</option>
+                            <option>CSBS Парк — ул. Парковая, 8</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-section">
+                            <label class="form-label" for="date-from">Дата начала</label>
+                            <input type="date" id="date-from" class="form-input">
+                        </div>
+                        <div class="form-section">
+                            <label class="form-label" for="date-to">Дата окончания</label>
+                            <input type="date" id="date-to" class="form-input">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-section">
+                            <label class="form-label" for="time-from">Начало</label>
+                            <select id="time-from" class="form-select">
+                                <option>08:00</option>
+                                <option>09:00</option>
+                                <option>10:00</option>
+                                <option>11:00</option>
+                                <option>12:00</option>
+                                <option>13:00</option>
+                                <option>14:00</option>
+                                <option>15:00</option>
+                                <option>16:00</option>
+                            </select>
+                        </div>
+                        <div class="form-section">
+                            <label class="form-label" for="time-to">Конец</label>
+                            <select id="time-to" class="form-select">
+                                <option>13:00</option>
+                                <option>14:00</option>
+                                <option>15:00</option>
+                                <option>16:00</option>
+                                <option>17:00</option>
+                                <option>18:00</option>
+                                <option>19:00</option>
+                                <option>20:00</option>
+                                <option>21:00</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <label class="form-label" for="name">Ваше имя</label>
+                        <input type="text" id="name" class="form-input" placeholder="Иван Петров">
+                    </div>
+
+                    <div class="form-section">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="ivan@example.com">
+                    </div>
+
+                    <!-- ВЫБРАННОЕ МЕСТО -->
+                    <div class="selected-desk-banner" id="selected-banner">
+                        <i data-lucide="map-pin"></i>
+                        <span>Выбранное место: <strong id="selected-desk-label">не выбрано</strong></span>
+                    </div>
+
+                    <!-- ИТОГ -->
+                    <div class="form-summary">
+                        <div class="summary-row">
+                            <span>Стоимость</span>
+                            <span class="summary-price">—</span>
+                        </div>
+                        <div class="summary-row muted">
+                            <span>Выберите место на карте, чтобы увидеть стоимость</span>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block btn-submit" disabled id="submit-btn">
+                        Подтвердить бронирование
+                    </button>
+                    <p class="form-note">Нажимая кнопку, вы соглашаетесь с <a href="#">условиями использования</a></p>
+                </div>
+            </aside>
+
+            <!-- ПРАВАЯ КОЛОНКА: КАРТА СТОЛОВ -->
+            <section class="desk-map-col">
+                <div class="desk-map-card">
+                    <div class="map-header">
+                        <h2 class="form-title">
+                            <i data-lucide="layout-dashboard" class="form-title-icon"></i>
+                            Карта зала
+                        </h2>
+                        <div class="map-legend">
+                            <div class="legend-item"><span class="legend-dot free"></span>Свободно</div>
+                            <div class="legend-item"><span class="legend-dot busy"></span>Занято</div>
+                            <div class="legend-item"><span class="legend-dot selected"></span>Выбрано</div>
+                        </div>
+                    </div>
+
+                    <!-- ЗАГЛУШКА ПЛАНА ЗАЛА -->
+                    <div class="floor-plan">
+                        <div class="floor-plan-placeholder">
+                            <div class="floor-zones">
+                                <!-- Зона А -->
+                                <div class="zone-block">
+                                    <div class="zone-title">Зона А — Open Space</div>
+                                    <div class="desk-grid">
+                                        <div class="desk free" onclick="selectDesk('A1', this)"><span>A1</span></div>
+                                        <div class="desk free" onclick="selectDesk('A2', this)"><span>A2</span></div>
+                                        <div class="desk busy" title="Занято"><span>A3</span></div>
+                                        <div class="desk free" onclick="selectDesk('A4', this)"><span>A4</span></div>
+                                        <div class="desk busy" title="Занято"><span>A5</span></div>
+                                        <div class="desk free" onclick="selectDesk('A6', this)"><span>A6</span></div>
+                                        <div class="desk free" onclick="selectDesk('A7', this)"><span>A7</span></div>
+                                        <div class="desk busy" title="Занято"><span>A8</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Коридор -->
+                                <div class="floor-aisle"></div>
+
+                                <!-- Зона Б -->
+                                <div class="zone-block">
+                                    <div class="zone-title">Зона Б — Тихая работа</div>
+                                    <div class="desk-grid">
+                                        <div class="desk free" onclick="selectDesk('B1', this)"><span>B1</span></div>
+                                        <div class="desk free" onclick="selectDesk('B2', this)"><span>B2</span></div>
+                                        <div class="desk free" onclick="selectDesk('B3', this)"><span>B3</span></div>
+                                        <div class="desk busy" title="Занято"><span>B4</span></div>
+                                        <div class="desk free" onclick="selectDesk('B5', this)"><span>B5</span></div>
+                                        <div class="desk free" onclick="selectDesk('B6', this)"><span>B6</span></div>
+                                        <div class="desk busy" title="Занято"><span>B7</span></div>
+                                        <div class="desk free" onclick="selectDesk('B8', this)"><span>B8</span></div>
+                                    </div>
+                                </div>
+
+                                <!-- Переговорные -->
+                                <div class="floor-aisle"></div>
+                                <div class="zone-block">
+                                    <div class="zone-title">Переговорные комнаты</div>
+                                    <div class="meeting-rooms-grid">
+                                        <div class="meeting-room free" onclick="selectDesk('MR1 (до 6 чел.)', this)">
+                                            <i data-lucide="users"></i>
+                                            <span>MR-1</span>
+                                            <small>до 6 чел.</small>
+                                        </div>
+                                        <div class="meeting-room busy">
+                                            <i data-lucide="users"></i>
+                                            <span>MR-2</span>
+                                            <small>Занято</small>
+                                        </div>
+                                        <div class="meeting-room free" onclick="selectDesk('MR3 (до 12 чел.)', this)">
+                                            <i data-lucide="users"></i>
+                                            <span>MR-3</span>
+                                            <small>до 12 чел.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Заглушка примечания -->
+                            <div class="map-coming-soon">
+                                <i data-lucide="info"></i>
+                                <span>Интерактивная карта с точным планом этажей появится в следующем обновлении. Пока
+                                    выберите место на схеме выше.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ФУТЕР -->
+    <footer class="footer">
+        <div class="container footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px;">
+            <p>&copy; 2026 CSBS Коворкинг. Все права защищены.</p>
+            <div class="legal-links">
+                <a href="#">Политика конфиденциальности</a>
+                <a href="#">Условия использования</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        let selectedDesk = null;
+
+        function selectDesk(id, el) {
+            // Убираем предыдущий выбор
+            if (selectedDesk) {
+                selectedDesk.classList.remove('selected-state');
+            }
+            selectedDesk = el;
+            el.classList.add('selected-state');
+
+            // Обновляем баннер
+            document.getElementById('selected-desk-label').textContent = id;
+            document.getElementById('selected-banner').classList.add('visible');
+
+            // Активируем кнопку
+            document.getElementById('submit-btn').disabled = false;
+
+            // Обновляем цену
+            const priceEl = document.querySelector('.summary-price');
+            priceEl.textContent = id.startsWith('MR') ? '1 500 ₽/ч' : '1 200 ₽/день';
+            document.querySelector('.summary-row.muted').style.display = 'none';
+        }
+
+        function selectType(type, btn) {
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
