@@ -16,6 +16,9 @@ export default function Navigation() {
                     <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
                         Главная
                     </Link>
+                    <Link to="/booking" className={`nav-link ${location.pathname === '/booking' ? 'active' : ''}`}>
+                        Бронирование
+                    </Link>
                     <Link to="/ai-assistant" className={`nav-link nav-link-ai ${location.pathname === '/ai-assistant' ? 'active' : ''}`}>
                         <Bot size={18} />
                         ИИ-Ассистент

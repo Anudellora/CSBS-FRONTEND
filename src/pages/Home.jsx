@@ -1,4 +1,5 @@
-import { Search, MapPin, Wifi, Coffee, Users } from 'lucide-react';
+import { Search, MapPin, Wifi, Coffee, Users, Printer, Clock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import './Home.css';
 
 export default function Home() {
@@ -14,16 +15,65 @@ export default function Home() {
                 <div className="container">
                     <div className="hero-content">
                         <h1>Коворкинг <span className="text-accent">Будущего</span></h1>
-                        <p className="hero-subtitle">Бронируйте премиальные рабочие места, созданные для глубокой концентрации и успешного сотрудничества. Введите свои предпочтения ниже, чтобы найти идеальное место.</p>
+                        <p className="hero-subtitle">Бронируйте премиальные рабочие места, созданные для глубокой концентрации и успешного сотрудничества. Идеальное место для вашего бизнеса.</p>
 
-                        <div className="search-bar-container glass-panel">
-                            <Search className="search-icon text-accent" size={24} />
-                            <input
-                                type="text"
-                                className="search-input"
-                                placeholder="Попросите ИИ подобрать идеальное место (например, 'Тихое место с быстрым Wi-Fi в центре')"
-                            />
-                            <button className="btn btn-primary search-btn">Найти</button>
+                        <div className="hero-actions">
+                            <Link to="/booking" className="btn btn-primary btn-lg">Забронировать место</Link>
+                            <a href="#about" className="btn btn-outline btn-lg">О нас</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* STATS SECTION */}
+            <section className="stats-section">
+                <div className="container stats-container">
+                    <div className="stat-item">
+                        <div className="stat-number">3</div>
+                        <div className="stat-label">Локации в центре города</div>
+                    </div>
+                    <div className="stat-item">
+                        <div className="stat-number">250+</div>
+                        <div className="stat-label">Рабочих мест</div>
+                    </div>
+                    <div className="stat-item">
+                        <div className="stat-number">24/7</div>
+                        <div className="stat-label">Доступ в любое время</div>
+                    </div>
+                    <div className="stat-item">
+                        <div className="stat-number">1200+</div>
+                        <div className="stat-label">Доверяют нам ежемесячно</div>
+                    </div>
+                </div>
+            </section>
+
+            {/* AMENITIES SECTION */}
+            <section id="about" className="amenities-section">
+                <div className="container">
+                    <div className="amenities-header">
+                        <h2>Все включено</h2>
+                        <p>Оставляем быт нам. Вы фокусируетесь на главном.</p>
+                    </div>
+                    <div className="amenities-grid">
+                        <div className="amenity-card">
+                            <Wifi size={32} className="amenity-icon" />
+                            <h3>Высокоскоростной Wi-Fi</h3>
+                            <p>Резервные каналы и стабильный интернет 1 Гбит/с для любых задач вашей команды.</p>
+                        </div>
+                        <div className="amenity-card">
+                            <Coffee size={32} className="amenity-icon" />
+                            <h3>Кофе и снеки</h3>
+                            <p>Безлимитный свежесваренный спешелти кофе и полезные перекусы в лаунж-зонах.</p>
+                        </div>
+                        <div className="amenity-card">
+                            <Printer size={32} className="amenity-icon" />
+                            <h3>Принт-зона</h3>
+                            <p>Современные МФУ для цветной печати, сканирования и копирования документов.</p>
+                        </div>
+                        <div className="amenity-card">
+                            <Clock size={32} className="amenity-icon" />
+                            <h3>Доступ 24/7</h3>
+                            <p>Работайте в любом ритме. Доступ по Face ID или смартфону в любое время суток.</p>
                         </div>
                     </div>
                 </div>
