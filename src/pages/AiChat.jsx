@@ -30,7 +30,7 @@ export default function AiChat() {
     };
 
     return (
-        <div className="chat-page container animate-fade-in">
+        <div className="chat-page container">
             <div className="chat-header">
                 <div className="ai-avatar">
                     <Bot size={32} className="text-accent" />

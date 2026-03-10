@@ -128,6 +128,7 @@ a:hover {
 
 .btn-primary:hover {
   background-color: var(--color-accent-hover);
+  color: #1a1f26;
   box-shadow: var(--shadow-accent);
   transform: translateY(-2px);
 }

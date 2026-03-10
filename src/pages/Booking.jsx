@@ -21,7 +21,7 @@ export default function Booking() {
     };
 
     return (
-        <div className="booking-page animate-fade-in">
+        <div className="booking-page">
             <div className="booking-page-header">
                 <div className="container">
                     <h1>Бронирование</h1>
