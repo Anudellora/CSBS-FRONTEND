@@ -44,12 +44,21 @@
     grid-template-columns: 1fr 1.5fr;
     gap: 2rem;
     padding: 3rem 1.5rem;
-    align-items: start;
+    align-items: stretch;
+}
+
+.booking-form-col,
+.desk-map-col {
+    display: flex;
+    flex-direction: column;
 }
 
 .booking-form-card,
 .desk-map-card {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .form-title {
@@ -275,6 +284,22 @@
     border: 1px solid var(--color-border);
     padding: 2rem;
     min-height: 500px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.floor-plan-placeholder {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.floor-zones {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .zone-block {
@@ -283,6 +308,9 @@
     border: 1px dashed var(--color-border);
     border-radius: 12px;
     padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .zone-title {
@@ -298,6 +326,8 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
     justify-items: center;
+    align-content: center;
+    flex-grow: 1;
 }
 
 .desk {
@@ -351,6 +381,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    align-content: center;
+    flex-grow: 1;
 }
 
 .meeting-room {
@@ -411,6 +443,146 @@
 
 .meeting-room.selected-state svg {
     color: var(--color-accent);
+}
+
+/* Private Offices List */
+.private-offices-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-grow: 1;
+}
+
+.private-office-card {
+    background-color: var(--color-bg-deep);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.office-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+}
+
+.private-office-card.free:hover {
+    border-color: var(--color-accent);
+    transform: translateX(4px);
+}
+
+.private-office-card.free:hover .office-icon-wrapper {
+    color: var(--color-accent);
+    background-color: rgba(0, 166, 192, 0.1);
+}
+
+.private-office-card.selected-state {
+    background-color: rgba(0, 166, 192, 0.05);
+    border-color: var(--color-accent);
+    box-shadow: inset 0 0 15px rgba(0, 166, 192, 0.1);
+    transform: scale(1.01);
+}
+
+.private-office-card.selected-state .office-icon-wrapper {
+    color: var(--color-accent);
+    background-color: rgba(0, 166, 192, 0.2);
+}
+
+.office-info {
+    flex-grow: 1;
+}
+
+.office-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.office-header h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.office-badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.badge {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.office-desc {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.office-amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.amenity-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.amenity-dot::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    opacity: 0.5;
+    flex-shrink: 0;
+}
+
+.office-status {
+    flex-shrink: 0;
+}
+
+.status-badge {
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.status-badge.free {
+    color: var(--color-text-muted);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.status-badge.selected {
+    color: #fff;
+    background-color: var(--color-accent);
+}
+
+.status-badge.busy {
+    color: rgba(255, 60, 60, 0.8);
+    background-color: rgba(255, 60, 60, 0.1);
 }
 
 /* Coming soon notice */

@@ -20,7 +20,7 @@ export default function Navigation() {
             <div className="container nav-container">
                 <Link to="/" className="nav-logo">
                     <img src={cowLogo} className="logo-icon neon-border" alt="Cow Logo" />
-                    <span>CSBS</span>
+                    <span className="brand-name">COW</span>
                 </Link>
                 <div className="nav-links">
                     <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>

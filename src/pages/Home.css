@@ -28,7 +28,11 @@
 }
 
 .text-accent {
-    color: var(--color-accent);
+    background: linear-gradient(90deg, var(--color-accent) 0%, #c0f4ff 20%, var(--color-accent) 40%, #c0f4ff 60%, var(--color-accent) 80%, #c0f4ff 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
