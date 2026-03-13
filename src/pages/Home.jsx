@@ -1,5 +1,7 @@
+import { useRef } from 'react';
 import { Search, MapPin, Wifi, Coffee, Users, Printer, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Squares from './Squares';
 import './Home.css';
 
 export default function Home() {
@@ -9,14 +11,24 @@ export default function Home() {
         { id: 3, name: "Аренда небольших офисов", location: "Набережная", price: "$40/день", img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&q=80&w=800", rating: 5.0 },
     ];
 
+    const heroRef = useRef(null);
+
     return (
         <div className="home-page">
-            <section className="hero">
+            <section className="hero" ref={heroRef} style={{ position: 'relative', overflow: 'hidden' }}>
+                <Squares
+                    direction="diagonal"
+                    speed={0.5}
+                    borderColor="#2a4a5e"
+                    squareSize={44}
+                    hoverFillColor="#00a6c0"
+                    eventSourceRef={heroRef}
+                />
                 <div className="container">
                     <div className="hero-content">
                         <h1 className="main-title">
                             <span className="coworking-text"><span className="text-accent">COW</span>ORKING</span>
-                            <br/>
+                            <br />
                             <span className="future-text">OF THE FUTURE</span>
                         </h1>
                         <p className="hero-subtitle">Бронируйте премиальные рабочие места, созданные для глубокой концентрации и успешного сотрудничества. Идеальное место для вашего бизнеса.</p>
@@ -97,9 +109,9 @@ export default function Home() {
                             </p>
                         </div>
                         <div className="about-image-column">
-                            <img 
-                                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80" 
-                                alt="Coworking Space" 
+                            <img
+                                src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80"
+                                alt="Coworking Space"
                                 className="about-image neon-image-border"
                             />
                         </div>

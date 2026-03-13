@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Bot, MapPin } from 'lucide-react';
+import { Bot, MapPin, User } from 'lucide-react';
 import cowLogo from '../assets/cow.png';
 import AuthModal from './AuthModal';
 import './Navigation.css';
@@ -9,6 +9,19 @@ export default function Navigation() {
     const location = useLocation();
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [authMode, setAuthMode] = useState('login');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const checkAuth = () => setIsLoggedIn(localStorage.getItem('isAuthenticated') === 'true');
+        checkAuth();
+        window.addEventListener('authChange', checkAuth);
+        return () => window.removeEventListener('authChange', checkAuth);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('isAuthenticated');
+        window.dispatchEvent(new Event('authChange'));
+    };
 
     const openAuthModal = (mode) => {
         setAuthMode(mode);
@@ -34,9 +47,22 @@ export default function Navigation() {
                         ИИ-Ассистент
                     </Link>
                     
-                    <button className="btn btn-primary" onClick={() => openAuthModal('login')}>
-                        Вход/Регистрация
-                    </button>
+                    {isLoggedIn && (
+                        <Link to="/profile" className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}>
+                            <User size={18} />
+                            Личный кабинет
+                        </Link>
+                    )}
+                    
+                    {isLoggedIn ? (
+                        <button className="btn btn-outline" style={{ borderColor: 'var(--color-border)', color: 'var(--color-text-main)' }} onClick={handleLogout}>
+                            Выйти
+                        </button>
+                    ) : (
+                        <button className="btn btn-primary" onClick={() => openAuthModal('login')}>
+                            Вход/Регистрация
+                        </button>
+                    )}
                 </div>
             </div>
 

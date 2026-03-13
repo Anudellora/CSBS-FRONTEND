@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
+import { X, Mail, Lock, User, Eye, EyeOff, Phone, Shield } from 'lucide-react';
+import { authService } from '../services/api';
 import './AuthModal.css';
 
 export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
@@ -11,16 +12,17 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        confirmEmail: '',
+        phone: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: 'client'
     });
 
     const [errors, setErrors] = useState({});
 
     // Reset state when modal closes or mode changes
     useEffect(() => {
-        setFormData({ name: '', email: '', confirmEmail: '', password: '', confirmPassword: '' });
+        setFormData({ name: '', email: '', phone: '', password: '', confirmPassword: '', role: 'client' });
         setErrors({});
         setShowPassword(false);
         setShowConfirmPassword(false);
@@ -63,19 +65,11 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
             if (fieldName === 'name' && !value) {
                 errorMsg = "Имя обязательно";
             }
-            if (fieldName === 'confirmEmail') {
-                if (value !== currentFormData.email) errorMsg = "Email адреса не совпадают";
+            if (fieldName === 'phone' && !value) {
+                errorMsg = "Телефон обязателен";
             }
             if (fieldName === 'confirmPassword') {
                 if (value !== currentFormData.password) errorMsg = "Пароли не совпадают";
-            }
-            // If email changes, re-validate confirmEmail if it has a value
-            if (fieldName === 'email' && currentFormData.confirmEmail) {
-                if (value !== currentFormData.confirmEmail) {
-                    setErrors(prev => ({ ...prev, confirmEmail: "Email адреса не совпадают" }));
-                } else {
-                    setErrors(prev => ({ ...prev, confirmEmail: '' }));
-                }
             }
             // If password changes, re-validate confirmPassword if it has a value
             if (fieldName === 'password' && currentFormData.confirmPassword) {
@@ -105,7 +99,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
         
         // Validate all relevant fields based on mode
         const fieldsToValidate = mode === 'register' 
-            ? ['name', 'email', 'confirmEmail', 'password', 'confirmPassword']
+            ? ['name', 'email', 'phone', 'password', 'confirmPassword']
             : ['email', 'password'];
 
         fieldsToValidate.forEach(field => {
@@ -123,12 +117,35 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
         setMode(mode === 'login' ? 'register' : 'login');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrors(prev => ({ ...prev, submit: '' }));
         
         if (validateForm()) {
             console.log(`Submitting ${mode} form...`, formData);
-            onClose();
+            try {
+                if (mode === 'register') {
+                    await authService.register(formData.name, formData.email, formData.phone, formData.password);
+                    // Automatically log in after registration, or just prompt to log in.
+                    // For now, let's login automatically.
+                    await authService.login(formData.email, formData.password);
+                } else {
+                    await authService.login(formData.email, formData.password);
+                }
+                
+                // Fetch current user details
+                const user = await authService.getMe();
+                
+                // Save user info
+                localStorage.setItem('isAuthenticated', 'true');
+                localStorage.setItem('user', JSON.stringify(user));
+
+                window.dispatchEvent(new Event('authChange'));
+                onClose();
+            } catch (err) {
+                console.error("Auth error:", err);
+                setErrors(prev => ({ ...prev, submit: err.message || 'Ошибка сервера. Попробуйте снова.' }));
+            }
         } else {
             console.log('Validation failed');
         }
@@ -205,22 +222,40 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                     </div>
 
                     {mode === 'register' && (
-                        <div className="form-group">
-                            <label htmlFor="confirmEmail">Подтвердите Email</label>
-                            <div className="input-with-icon">
-                                <Mail size={18} className="input-icon" />
-                                <input 
-                                    type="email" 
-                                    id="input_f3" 
-                                    placeholder="Повторите email" 
-                                    value={formData.confirmEmail}
-                                    onChange={(e) => handleChange(e, 'confirmEmail')}
-                                    className={errors.confirmEmail ? 'input-error' : ''}
-                                    autoComplete="off"
-                                />
+                        <>
+                            <div className="form-group">
+                                <label htmlFor="phone">Телефон</label>
+                                <div className="input-with-icon">
+                                    <Phone size={18} className="input-icon" />
+                                    <input 
+                                        type="tel" 
+                                        id="input_f3" 
+                                        placeholder="+7 (999) 000-00-00" 
+                                        value={formData.phone}
+                                        onChange={(e) => handleChange(e, 'phone')}
+                                        className={errors.phone ? 'input-error' : ''}
+                                        autoComplete="off"
+                                    />
+                                </div>
+                                {errors.phone && <span className="error-text">{errors.phone}</span>}
                             </div>
-                            {errors.confirmEmail && <span className="error-text">{errors.confirmEmail}</span>}
-                        </div>
+                            <div className="form-group">
+                                <label htmlFor="role">Роль (для демо)</label>
+                                <div className="input-with-icon">
+                                    <Shield size={18} className="input-icon" />
+                                    <select 
+                                        id="input_role" 
+                                        value={formData.role}
+                                        onChange={(e) => handleChange(e, 'role')}
+                                        style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.8rem', backgroundColor: 'rgba(0,0,0,0.2)', color: '#fff', border: '1px solid var(--color-border)', borderRadius: '8px', appearance: 'none' }}
+                                    >
+                                        <option value="client" style={{ color: '#0a0e17' }}>Зарегистрированный пользователь</option>
+                                        <option value="manager" style={{ color: '#0a0e17' }}>Администратор коворкинга</option>
+                                        <option value="sysadmin" style={{ color: '#0a0e17' }}>Системный администратор</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </>
                     )}
 
                     <div className="form-group">
@@ -277,6 +312,12 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }) {
                         </div>
                     )}
 
+                    {errors.submit && (
+                        <div className="form-error-banner" style={{ color: '#ff4d4f', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>
+                            {errors.submit}
+                        </div>
+                    )}
+                    
                     <button type="submit" className="btn btn-primary btn-submit">
                         {mode === 'login' ? 'Войти' : 'Зарегистрироваться'}
                     </button>
